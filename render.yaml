@@ -3,7 +3,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerImage: bitnami/zookeeper:3.9.1
+    image: bitnami/zookeeper:3.9.1
     envVars:
       - key: ALLOW_ANONYMOUS_LOGIN
         value: 'yes'
@@ -17,7 +17,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerImage: bitnami/kafka:3.7.0
+    image: bitnami/kafka:3.7.0
     envVars:
       - key: KAFKA_BROKER_ID
         value: "1"
@@ -45,7 +45,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerImage: bitnami/kafka:3.7.0
+    image: bitnami/kafka:3.7.0
     envVars:
       - key: KAFKA_BROKER_ID
         value: "2"
@@ -73,7 +73,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerImage: bitnami/kafka:3.7.0
+    image: bitnami/kafka:3.7.0
     envVars:
       - key: KAFKA_BROKER_ID
         value: "3"
@@ -101,7 +101,7 @@ services:
     type: web
     env: docker
     plan: free
-    dockerImage: provectuslabs/kafka-ui:latest
+    image: provectuslabs/kafka-ui:latest
     envVars:
       - key: KAFKA_CLUSTERS_0_NAME
         value: local
