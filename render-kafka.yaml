@@ -1,0 +1,125 @@
+services:
+  - name: zookeeper
+    type: web
+    env: docker
+    plan: free
+    docker:
+      image: bitnami/zookeeper:3.9.1
+    envVars:
+      - key: ALLOW_ANONYMOUS_LOGIN
+        value: 'yes'
+    disk:
+      name: zookeeper-data
+      mountPath: /zktmp
+      sizeGB: 1 # Adjust size as needed
+    ports:
+      - 2181
+
+  - name: kafka1
+    type: web
+    env: docker
+    plan: free
+    docker:
+      image: bitnami/kafka:3.7.0
+    envVars:
+      - key: KAFKA_BROKER_ID
+        value: "1"
+      - key: KAFKA_CFG_ZOOKEEPER_CONNECT
+        value: zookeeper:2181
+      - key: KAFKA_CFG_LISTENERS
+        value: INTERNAL://:9092,EXTERNAL://0.0.0.0:29092
+      - key: KAFKA_CFG_ADVERTISED_LISTENERS
+        value: INTERNAL://kafka1:9092,EXTERNAL://localhost:29092
+      - key: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
+        value: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - key: KAFKA_CFG_INTER_BROKER_LISTENER_NAME
+        value: INTERNAL
+      - key: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
+        value: 'true'
+      - key: ALLOW_PLAINTEXT_LISTENER
+        value: 'yes'
+    disk:
+      name: kafka1-data
+      mountPath: /bitnami/kafka
+      sizeGB: 2 # Adjust size as needed
+    ports:
+      - 9092
+      - 29092
+
+  - name: kafka2
+    type: web
+    env: docker
+    plan: free
+    docker:
+      image: bitnami/kafka:3.7.0
+    envVars:
+      - key: KAFKA_BROKER_ID
+        value: "2"
+      - key: KAFKA_CFG_ZOOKEEPER_CONNECT
+        value: zookeeper:2181
+      - key: KAFKA_CFG_LISTENERS
+        value: INTERNAL://:9093,EXTERNAL://0.0.0.0:29093
+      - key: KAFKA_CFG_ADVERTISED_LISTENERS
+        value: INTERNAL://kafka2:9093,EXTERNAL://localhost:29093
+      - key: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
+        value: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - key: KAFKA_CFG_INTER_BROKER_LISTENER_NAME
+        value: INTERNAL
+      - key: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
+        value: 'true'
+      - key: ALLOW_PLAINTEXT_LISTENER
+        value: 'yes'
+    disk:
+      name: kafka2-data
+      mountPath: /bitnami/kafka
+      sizeGB: 2 # Adjust size as needed
+    ports:
+      - 9093
+      - 29093
+
+  - name: kafka3
+    type: web
+    env: docker
+    plan: free
+    docker:
+      image: bitnami/kafka:3.7.0
+    envVars:
+      - key: KAFKA_BROKER_ID
+        value: "3"
+      - key: KAFKA_CFG_ZOOKEEPER_CONNECT
+        value: zookeeper:2181
+      - key: KAFKA_CFG_LISTENERS
+        value: INTERNAL://:9094,EXTERNAL://0.0.0.0:29094
+      - key: KAFKA_CFG_ADVERTISED_LISTENERS
+        value: INTERNAL://kafka3:9094,EXTERNAL://localhost:29094
+      - key: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
+        value: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - key: KAFKA_CFG_INTER_BROKER_LISTENER_NAME
+        value: INTERNAL
+      - key: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
+        value: 'true'
+      - key: ALLOW_PLAINTEXT_LISTENER
+        value: 'yes'
+    disk:
+      name: kafka3-data
+      mountPath: /bitnami/kafka
+      sizeGB: 2 # Adjust size as needed
+    ports:
+      - 9094
+      - 29094
+
+  - name: kafka-ui
+    type: web
+    env: docker
+    plan: free
+    docker:
+      image: provectuslabs/kafka-ui:latest
+    envVars:
+      - key: KAFKA_CLUSTERS_0_NAME
+        value: local
+      - key: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
+        value: kafka1:9092,kafka2:9093,kafka3:9094
+      - key: KAFKA_CLUSTERS_0_ZOOKEEPER
+        value: zookeeper:2181
+    ports:
+      - 8080
