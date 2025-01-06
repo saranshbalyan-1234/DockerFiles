@@ -6,10 +6,10 @@ services:
     env: docker
     plan: standard
     dockerfilePath: ./zookeeper/Dockerfile
-    disk:
-      name: zookeeper-data
-      sizeGB: 10
-      mountPath: /var/lib/zookeeper
+    # disk:
+    #   name: zookeeper-data
+    #   sizeGB: 10
+    #   mountPath: /var/lib/zookeeper
     envVars:
       - key: ZOOKEEPER_CLIENT_PORT
         value: "2181"
@@ -21,10 +21,10 @@ services:
     env: docker
     plan: standard
     dockerfilePath: ./kafka/Dockerfile
-    disk:
-      name: kafka-data
-      sizeGB: 20
-      mountPath: /var/lib/kafka
+    # disk:
+    #   name: kafka-data
+    #   sizeGB: 20
+    #   mountPath: /var/lib/kafka
     envVars:
       - key: KAFKA_ZOOKEEPER_CONNECT
         value: zookeeper:2181
