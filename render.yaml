@@ -9,6 +9,7 @@ services:
     disk:
       name: zookeeper-data
       sizeGB: 10
+      mountPath: /var/lib/zookeeper
     envVars:
       - key: ZOOKEEPER_CLIENT_PORT
         value: "2181"
@@ -23,6 +24,7 @@ services:
     disk:
       name: kafka-data
       sizeGB: 20
+      mountPath: /var/lib/kafka
     envVars:
       - key: KAFKA_ZOOKEEPER_CONNECT
         value: zookeeper:2181
